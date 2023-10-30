@@ -1,0 +1,31 @@
+<powershell>
+
+Invoke-WebRequest -UseBasicParsing "https://raw.githubusercontent.com/microsoft/Windows-Containers/Main/helpful_tools/Install-DockerCE/install-docker-ce.ps1" -o install-docker-ce.ps1
+.\install-docker-ce.ps1
+
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))   
+
+choco install git -y
+
+$Headers = @{
+   "Authorization" = "token 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"
+ }
+
+$GitHubApiUrl = "https://api.github.com/repos/renuchauhan625/ECS-deployment-github-actions/actions/runners/registration-token"
+
+$response = Invoke-RestMethod -Uri $GitHubApiUrl -Headers $Headers -Method POST
+$RegistrationToken = $response.token
+Write-Host "GitHub Runner Registration Token: $RegistrationToken"
+
+mkdir actions-runner; cd actions-runner
+
+Invoke-WebRequest -Uri https://github.com/actions/runner/releases/download/v2.310.2/actions-runner-win-x64-2.310.2.zip -OutFile actions-runner-win-x64-2.310.2.zip
+
+Add-Type -AssemblyName System.IO.Compression.FileSystem ; [System.IO.Compression.ZipFile]::ExtractToDirectory("$PWD/actions-runner-win-x64-2.310.2.zip", "$PWD")
+
+./config.cmd  --unattended --url https://github.com/renuchauhan625/ECS-deployment-github-actions --token $RegistrationToken 
+
+.\run.cmd
+
+</powershell>
+<persist>true</persist>
