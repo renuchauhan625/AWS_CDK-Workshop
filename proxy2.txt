@@ -1,0 +1,24 @@
+# Specify the proxy server and port
+$proxyServer = "your-proxy-server"
+$proxyPort = "your-proxy-port"
+
+# Specify whether you want to enable or disable the proxy
+$enableProxy = $true  # Set to $false to disable the proxy
+
+# Specify proxy exceptions (if needed)
+$proxyExceptions = "*.example.com;*.example.org"  # Use semicolons to separate multiple exceptions
+
+# Define the Registry path for Internet Explorer settings (32-bit)
+$regPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
+
+# Set the proxy server and port
+Set-ItemProperty -Path $regPath -Name ProxyServer -Value "$proxyServer:$proxyPort"
+
+# Enable or disable the proxy
+Set-ItemProperty -Path $regPath -Name ProxyEnable -Value $enableProxy
+
+# Set proxy exceptions (if needed)
+Set-ItemProperty -Path $regPath -Name ProxyOverride -Value $proxyExceptions
+
+# Refresh Internet Explorer settings
+Invoke-Expression -Command "RUNDLL32.EXE inetcpl.cpl,ClearMyTracksByProcess 8"
