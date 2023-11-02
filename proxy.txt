@@ -1,0 +1,29 @@
+# Define proxy server and port
+$proxyServer = "your-proxy-server"
+$proxyPort = "your-proxy-port"
+
+# If your proxy requires authentication, specify the username and password
+$proxyUsername = "your-username"
+$proxyPassword = "your-password"
+
+# Create a WebRequest object
+$webRequest = [System.Net.WebRequest]::Create("https://example.com")  # Replace with the URL you want to access
+
+# Configure the proxy settings
+$proxy = New-Object System.Net.WebProxy($proxyServer, $proxyPort)
+$webRequest.Proxy = $proxy
+
+# Set credentials for proxy authentication
+if ($proxyUsername -ne $null) {
+    $credentials = New-Object System.Net.NetworkCredential($proxyUsername, $proxyPassword)
+    $proxy.Credentials = $credentials
+}
+
+# Make a web request through the proxy
+$response = $webRequest.GetResponse()
+
+# Process the response
+# Add your code to process the response here
+
+# Close the response
+$response.Close()
