@@ -22,3 +22,15 @@ Set-ItemProperty -Path $regPath -Name ProxyOverride -Value $proxyExceptions
 
 # Refresh Internet Explorer settings
 Invoke-Expression -Command "RUNDLL32.EXE inetcpl.cpl,ClearMyTracksByProcess 8"
+
+
+
+
+
+
+# Define the Registry path for Internet Explorer settings (32-bit)
+$regPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
+
+# Set the "Don't use the proxy server for local (intranet) addresses" checkbox
+Set-ItemProperty -Path $regPath -Name ProxyBypassLocal -Value 1
+
