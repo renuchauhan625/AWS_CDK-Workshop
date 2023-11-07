@@ -35,3 +35,49 @@ $regPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
 Set-ItemProperty -Path $regPath -Name ProxyBypassLocal -Value 1
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Specify proxy server and port
+$proxyServer = "your-proxy-server"
+$proxyPort = "your-proxy-port"
+
+# Specify whether to bypass the proxy server for local addresses
+$bypassLocal = $true  # Set to $false to disable bypassing local addresses
+
+# Define the Registry path for LAN settings
+$regPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
+
+# Set the proxy server and port
+Set-ItemProperty -Path $regPath -Name ProxyServer -Value "$proxyServer:$proxyPort"
+
+# Enable or disable bypassing local addresses
+Set-ItemProperty -Path $regPath -Name ProxyOverride -Value $bypassLocal ? "<local>" : ""
+
+# Refresh Internet Explorer settings (optional)
+Invoke-Expression -Command "RUNDLL32.EXE inetcpl.cpl,ClearMyTracksByProcess 8"
+
