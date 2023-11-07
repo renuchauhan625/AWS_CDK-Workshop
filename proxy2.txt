@@ -113,4 +113,12 @@ $proxyBypassList = "<local>"
 # Set the proxy bypass list for Internet Explorer
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name ProxyOverride -Value $proxyBypassList
 
+# Define the URL as a string
+$urlString = "https://www.example.com/path/resource?param=value"
+
+# Convert the URL string to a URI object
+$uriObject = [System.Uri]::new($urlString)
+
+# Output the URI object
+Write-Host "URI Object: $($uriObject.ToString())"
 
