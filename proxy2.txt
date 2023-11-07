@@ -81,3 +81,36 @@ Set-ItemProperty -Path $regPath -Name ProxyOverride -Value $bypassLocal ? "<loca
 # Refresh Internet Explorer settings (optional)
 Invoke-Expression -Command "RUNDLL32.EXE inetcpl.cpl,ClearMyTracksByProcess 8"
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Set the proxy bypass list for local (intranet) addresses
+$proxyBypassList = "<local>"
+
+# Set the proxy bypass list for Internet Explorer
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name ProxyOverride -Value $proxyBypassList
+
+
